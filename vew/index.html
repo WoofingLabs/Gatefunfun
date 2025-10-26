@@ -181,6 +181,7 @@
                 document.getElementById('networkStatus').innerText = '已连接到Gate Layer (ID: 10088)';
             } catch (error) {
                 document.getElementById('networkStatus').innerText = `连接失败: ${error.message || '未知错误'}`;
+                console.error('Web3 初始化失败:', error);
             }
         }
 
@@ -195,22 +196,26 @@
             try {
                 queryButton.disabled = true;
                 queryButton.innerHTML = '查询中... <i class="fa fa-spinner fa-spin ml-2"></i>';
-                status.innerText = '正在查询代币...';
                 tokenListDiv.innerHTML = '<p class="text-light-gray text-sm">加载中...</p>';
                 let tokenId = 1;
                 let html = '<table class="w-full text-sm token-table"><thead><tr><th>编号</th><th>符号</th><th>全称</th><th>Telegram</th></tr></thead><tbody>';
                 while (true) {
                     try {
+                        status.innerText = `正在查询代币编号 ${tokenId}...`;
+                        console.log(`查询代币编号: ${tokenId}`);
                         const tokenInfo = await retryContractCall(() => contract.methods.getTokenInfo(tokenId).call());
+                        console.log(`代币 ${tokenId} 数据:`, tokenInfo);
                         html += `<tr><td>${tokenId}</td><td>${tokenInfo.symbol}</td><td>${tokenInfo.fullName}</td><td><a href="${tokenInfo.telegram}" target="_blank" class="text-primary hover:underline">${tokenInfo.telegram}</a></td></tr>`;
+                        tokenListDiv.innerHTML = html + '</tbody></table>'; // 实时更新表格
                         tokenId++;
                         await delay(1000); // 每秒查询一个
                     } catch (error) {
-                        if (error.message.includes('Invalid token ID')) {
+                        console.error(`查询代币 ${tokenId} 失败:`, error.message);
+                        if (error.message.includes('revert') || error.message.includes('Invalid token ID')) {
+                            console.log(`代币 ${tokenId} 不存在，停止查询`);
                             break; // 遇到无效编号停止
                         }
-                        console.error(`查询代币 ${tokenId} 失败: ${error.message}`);
-                        break;
+                        throw error; // 其他错误抛出
                     }
                 }
                 if (tokenId === 1) {
