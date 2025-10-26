@@ -485,7 +485,7 @@
                     const tokenInfo = await retryContractCall(() => contract.methods.getTokenInfo(id).call());
                     const progress = (Number(web3.utils.fromWei(tokenInfo.balance, 'ether')) / 500).toFixed(2);
                     const statusText = tokenInfo.status === '0' ? '活跃' : tokenInfo.status === '1' ? '已满' : '已关闭';
-                    html += `<tr><td>${id}</td><td>${tokenInfo.symbol}</td><td>${tokenInfo.fullName}</td><td><a href="${tokenInfo.telegram}" target="_blank" class="text-primary hover:underline">${tokenInfo.telegram}</a></td><td>${progress}/500 ETH</td><td>${statusText}</td></tr>`;
+                    html += `<tr><td>${id}</td><td>${tokenInfo.symbol}</td><td>${tokenInfo.fullName}</td><td><a href="${tokenInfo.telegram}" target="_blank" class="text-primary hover:underline">${tokenInfo.telegram}</a></td><td>${progress}/500 GT</td><td>${statusText}</td></tr>`;
                 }
                 html += '</tbody></table>';
                 creatorTokensDiv.innerHTML = html;
