@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gatefunfun</title>
+    <title>Gatefunfun - Claim Tokens</title>
     <link rel="icon" type="image/png" href="https://www.woofswap.finance/image/tokens/gdog.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -64,12 +64,12 @@
         </div>
         <div id="mobileMenu" class="md:hidden bg-dark/95 absolute w-full top-full py-4 px-4 hidden">
             <div class="flex flex-col space-y-4">
-                <a href="#community" class="hover:text-primary transition-colors py-2 text-white">社区</a>
+                <a href="#claim" class="hover:text-primary transition-colors py-2 text-white">领取代币</a>
             </div>
         </div>
     </header>
 
-    <section id="community" class="min-h-screen pt-24 pb-16 bg-grid relative overflow-hidden flex items-center justify-center">
+    <section id="claim" class="min-h-screen pt-24 pb-16 bg-grid relative overflow-hidden flex items-center justify-center">
         <div class="absolute inset-0 bg-gradient-to-b from-primary/10 to-dark pointer-events-none"></div>
         <div class="absolute top-0 left-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
@@ -79,7 +79,7 @@
             </div>
             <h1 class="font-display text-5xl md:text-7xl mb-6 text-primary text-shadow-glow">Gatefunfun</h1>
             <p class="text-xl md:text-2xl text-light-gray max-w-3xl mx-auto mb-10">
-                领取代币，参与Gatefunfun社区！每0.1 GT可领取90,000代币，Owner可设置和充值代币，公平透明！
+                领取代币，参与Gatefunfun社区！每0.1 GT可领取90,000代币，输入代币编号查询可领取数量！
             </p>
             <div class="bg-dark/50 p-6 rounded-lg border border-primary/30 max-w-2xl mx-auto mb-8">
                 <div class="flex flex-col space-y-4">
@@ -100,21 +100,6 @@
                         <input type="text" id="claimTokenId" placeholder="输入代币编号" class="px-4 py-2 bg-dark/80 border border-primary/20 rounded-lg text-white focus:outline-none focus:border-secondary">
                         <p id="claimInfo" class="text-light-gray text-sm">可领取代币：请先输入编号查询</p>
                         <button id="claimButton" class="mt-2 px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-primary/80 transition-all disabled:bg-dark/50 disabled:cursor-not-allowed" disabled>领取代币</button>
-                    </div>
-                    <div id="ownerSection" class="flex flex-col space-y-2 hidden">
-                        <label class="block text-left text-light-gray mb-2">Owner 设置代币合约</label>
-                        <input type="text" id="setTokenId" placeholder="输入代币编号" class="px-4 py-2 bg-dark/80 border border-primary/20 rounded-lg text-white focus:outline-none focus:border-secondary">
-                        <input type="text" id="tokenContractInput" placeholder="输入代币合约地址" class="px-4 py-2 bg-dark/80 border border-primary/20 rounded-lg text-white focus:outline-none focus:border-secondary">
-                        <button id="setTokenContractButton" class="mt-2 px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-primary/80 transition-all disabled:bg-dark/50 disabled:cursor-not-allowed" disabled>设置代币合约</button>
-                        <label class="block text-left text-light-gray mb-2 mt-4">Owner 充值代币</label>
-                        <input type="text" id="depositTokenIdOwner" placeholder="输入代币编号" class="px-4 py-2 bg-dark/80 border border-primary/20 rounded-lg text-white focus:outline-none focus:border-secondary">
-                        <input type="text" id="depositTokenAmount" placeholder="输入代币数量" class="px-4 py-2 bg-dark/80 border border-primary/20 rounded-lg text-white focus:outline-none focus:border-secondary">
-                        <button id="approveTokenButton" class="mt-2 px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-primary/80 transition-all disabled:bg-dark/50 disabled:cursor-not-allowed" disabled>授权代币</button>
-                        <button id="depositTokenButton" class="mt-2 px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-primary/80 transition-all disabled:bg-dark/50 disabled:cursor-not-allowed" disabled>充值代币</button>
-                        <label class="block text-left text-light-gray mb-2 mt-4">Owner 提取代币</label>
-                        <input type="text" id="withdrawTokenIdOwner" placeholder="输入代币编号" class="px-4 py-2 bg-dark/80 border border-primary/20 rounded-lg text-white focus:outline-none focus:border-secondary">
-                        <p id="withdrawTokenInfo" class="text-light-gray text-sm">代币余额：请先输入编号查询</p>
-                        <button id="withdrawTokenButton" class="mt-2 px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-primary/80 transition-all disabled:bg-dark/50 disabled:cursor-not-allowed" disabled>提取代币</button>
                     </div>
                     <div class="mt-4">
                         <img src="https://www.woofswap.finance/image/tokens/gdog.png" alt="GDOG Logo" class="w-16 h-16 mx-auto animate-float">
@@ -152,12 +137,6 @@
             {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"tokenContractToId","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"tokenRegistry","outputs":[{"internalType":"contract ITokenRegistry","name":"","type":"address"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
-        ];
-        const erc20Abi = [
-            {"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},
-            {"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},
-            {"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},
-            {"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"}
         ];
 
         const chains = {
@@ -217,7 +196,6 @@
                     await switchNetwork('GateLayer');
                     claimContract = new web3.eth.Contract(claimContractAbi, CLAIM_CONTRACT_ADDRESS);
                     await checkBalances();
-                    await checkOwner();
                     document.getElementById('networkStatus').innerText = '已连接到Gate Layer (ID: 10088)';
                 } catch (error) {
                     document.getElementById('networkStatus').innerText = '钱包连接失败: ' + (error.message || '未知错误');
@@ -252,32 +230,9 @@
             }
         }
 
-        async function checkOwner() {
-            if (!web3 || !account) {
-                document.getElementById('ownerSection').style.display = 'none';
-                return;
-            }
-            try {
-                const owner = await retryContractCall(() => claimContract.methods.owner().call());
-                console.log("Owner:", owner, "Account:", account);
-                document.getElementById('ownerSection').style.display = account.toLowerCase() === owner.toLowerCase() ? 'block' : 'none';
-                if (account.toLowerCase() === owner.toLowerCase()) {
-                    document.getElementById('networkStatus').innerText = 'Owner身份已确认';
-                }
-            } catch (error) {
-                console.error('Check Owner Error:', error);
-                document.getElementById('ownerSection').style.display = 'none';
-                document.getElementById('networkStatus').innerText = `Owner检查失败: ${error.message || '未知错误'}`;
-            }
-        }
-
         async function checkBalances() {
             if (!web3 || !account) {
                 document.getElementById('claimButton').disabled = true;
-                document.getElementById('setTokenContractButton').disabled = true;
-                document.getElementById('approveTokenButton').disabled = true;
-                document.getElementById('depositTokenButton').disabled = true;
-                document.getElementById('withdrawTokenButton').disabled = true;
                 document.getElementById('balanceStatus').innerHTML = 'GT余额: 0';
                 return;
             }
@@ -290,10 +245,6 @@
             } catch (error) {
                 document.getElementById('networkStatus').innerText = `查询失败: ${error.message || '未知错误'}`;
                 document.getElementById('claimButton').disabled = true;
-                document.getElementById('setTokenContractButton').disabled = true;
-                document.getElementById('approveTokenButton').disabled = true;
-                document.getElementById('depositTokenButton').disabled = true;
-                document.getElementById('withdrawTokenButton').disabled = true;
             }
         }
 
@@ -366,214 +317,6 @@
             }
         }
 
-        async function setTokenContract() {
-            const tokenId = document.getElementById('setTokenId').value;
-            const tokenContract = document.getElementById('tokenContractInput').value;
-            const status = document.getElementById('networkStatus');
-            const setButton = document.getElementById('setTokenContractButton');
-            if (!web3 || !account) {
-                status.innerText = '请连接钱包';
-                return;
-            }
-            if (!tokenId || isNaN(tokenId) || Number(tokenId) <= 0) {
-                status.innerText = '请输入有效的代币编号';
-                return;
-            }
-            if (!web3.utils.isAddress(tokenContract)) {
-                status.innerText = '请输入有效的代币合约地址';
-                return;
-            }
-            try {
-                setButton.disabled = true;
-                setButton.innerHTML = '设置中... <i class="fa fa-spinner fa-spin ml-2"></i>';
-                status.innerText = '检查燃气费...';
-                const gasPrice = await web3.eth.getGasPrice();
-                const estimatedGas = await claimContract.methods.setTokenContract(tokenId, tokenContract).estimateGas({ from: account });
-                const nativeBalance = await web3.eth.getBalance(account);
-                const gasCost = web3.utils.toBN(gasPrice).mul(web3.utils.toBN(estimatedGas));
-                if (web3.utils.toBN(nativeBalance).lt(gasCost)) {
-                    status.innerText = 'GT余额不足以支付燃气费';
-                    return;
-                }
-                const tx = await claimContract.methods.setTokenContract(tokenId, tokenContract).send({
-                    from: account,
-                    gas: web3.utils.toHex(Math.min(estimatedGas * 2, 3000000))
-                });
-                await waitForTransaction(tx.transactionHash);
-                status.innerText = '代币合约设置成功！';
-                document.getElementById('tokenContractInput').value = '';
-            } catch (error) {
-                status.innerText = error.code === 4001 ? '用户取消交易' : `设置失败: ${error.message}`;
-                console.error('Set Token Contract Error:', error);
-            } finally {
-                setButton.disabled = false;
-                setButton.innerHTML = '设置代币合约';
-            }
-        }
-
-        async function approveTokens() {
-            const tokenId = document.getElementById('depositTokenIdOwner').value;
-            const amount = document.getElementById('depositTokenAmount').value;
-            const status = document.getElementById('networkStatus');
-            const approveButton = document.getElementById('approveTokenButton');
-            if (!web3 || !account) {
-                status.innerText = '请连接钱包';
-                return;
-            }
-            if (!tokenId || isNaN(tokenId) || Number(tokenId) <= 0) {
-                status.innerText = '请输入有效的代币编号';
-                return;
-            }
-            if (!amount || isNaN(amount) || Number(amount) <= 0) {
-                status.innerText = '请输入有效的代币数量';
-                return;
-            }
-            try {
-                const tokenContract = await retryContractCall(() => claimContract.methods.tokenContracts(tokenId).call());
-                if (tokenContract === '0x0000000000000000000000000000000000000000') {
-                    status.innerText = '代币合约未设置';
-                    return;
-                }
-                approveButton.disabled = true;
-                approveButton.innerHTML = '授权中... <i class="fa fa-spinner fa-spin ml-2"></i>';
-                status.innerText = '检查燃气费...';
-                const token = new web3.eth.Contract(erc20Abi, tokenContract);
-                const amountWei = web3.utils.toWei(amount, 'ether');
-                const gasPrice = await web3.eth.getGasPrice();
-                const estimatedGas = await token.methods.approve(CLAIM_CONTRACT_ADDRESS, amountWei).estimateGas({ from: account });
-                const nativeBalance = await web3.eth.getBalance(account);
-                const gasCost = web3.utils.toBN(gasPrice).mul(web3.utils.toBN(estimatedGas));
-                if (web3.utils.toBN(nativeBalance).lt(gasCost)) {
-                    status.innerText = 'GT余额不足以支付燃气费';
-                    return;
-                }
-                const tx = await token.methods.approve(CLAIM_CONTRACT_ADDRESS, amountWei).send({
-                    from: account,
-                    gas: web3.utils.toHex(Math.min(estimatedGas * 2, 3000000))
-                });
-                await waitForTransaction(tx.transactionHash);
-                status.innerText = '代币授权成功！';
-            } catch (error) {
-                status.innerText = error.code === 4001 ? '用户取消交易' : `授权失败: ${error.message}`;
-                console.error('Approve Error:', error);
-            } finally {
-                approveButton.disabled = false;
-                approveButton.innerHTML = '授权代币';
-            }
-        }
-
-        async function depositTokens() {
-            const tokenId = document.getElementById('depositTokenIdOwner').value;
-            const amount = document.getElementById('depositTokenAmount').value;
-            const status = document.getElementById('networkStatus');
-            const depositButton = document.getElementById('depositTokenButton');
-            if (!web3 || !account) {
-                status.innerText = '请连接钱包';
-                return;
-            }
-            if (!tokenId || isNaN(tokenId) || Number(tokenId) <= 0) {
-                status.innerText = '请输入有效的代币编号';
-                return;
-            }
-            if (!amount || isNaN(amount) || Number(amount) <= 0) {
-                status.innerText = '请输入有效的代币数量';
-                return;
-            }
-            try {
-                depositButton.disabled = true;
-                depositButton.innerHTML = '充值中... <i class="fa fa-spinner fa-spin ml-2"></i>';
-                status.innerText = '检查燃气费...';
-                const amountWei = web3.utils.toWei(amount, 'ether');
-                const gasPrice = await web3.eth.getGasPrice();
-                const estimatedGas = await claimContract.methods.depositTokens(tokenId, amountWei).estimateGas({ from: account });
-                const nativeBalance = await web3.eth.getBalance(account);
-                const gasCost = web3.utils.toBN(gasPrice).mul(web3.utils.toBN(estimatedGas));
-                if (web3.utils.toBN(nativeBalance).lt(gasCost)) {
-                    status.innerText = 'GT余额不足以支付燃气费';
-                    return;
-                }
-                const tx = await claimContract.methods.depositTokens(tokenId, amountWei).send({
-                    from: account,
-                    gas: web3.utils.toHex(Math.min(estimatedGas * 2, 3000000))
-                });
-                await waitForTransaction(tx.transactionHash);
-                status.innerText = '代币充值成功！';
-                document.getElementById('depositTokenAmount').value = '';
-            } catch (error) {
-                status.innerText = error.code === 4001 ? '用户取消交易' : `充值失败: ${error.message}`;
-                console.error('Deposit Tokens Error:', error);
-            } finally {
-                depositButton.disabled = false;
-                depositButton.innerHTML = '充值代币';
-            }
-        }
-
-        async function withdrawTokens() {
-            const tokenId = document.getElementById('withdrawTokenIdOwner').value;
-            const status = document.getElementById('networkStatus');
-            const withdrawButton = document.getElementById('withdrawTokenButton');
-            if (!web3 || !account) {
-                status.innerText = '请连接钱包';
-                return;
-            }
-            if (!tokenId || isNaN(tokenId) || Number(tokenId) <= 0) {
-                status.innerText = '请输入有效的代币编号';
-                return;
-            }
-            try {
-                withdrawButton.disabled = true;
-                withdrawButton.innerHTML = '提取中... <i class="fa fa-spinner fa-spin ml-2"></i>';
-                status.innerText = '检查燃气费和代币余额...';
-                const tokenContract = await retryContractCall(() => claimContract.methods.tokenContracts(tokenId).call());
-                if (tokenContract === '0x0000000000000000000000000000000000000000') {
-                    status.innerText = '代币合约未设置';
-                    return;
-                }
-                const balance = await retryContractCall(() => claimContract.methods.tokenBalances(tokenId).call());
-                if (web3.utils.toBN(balance).isZero()) {
-                    status.innerText = '无代币可提取';
-                    return;
-                }
-                const gasPrice = await web3.eth.getGasPrice();
-                const estimatedGas = await claimContract.methods.withdrawTokens(tokenId).estimateGas({ from: account });
-                const nativeBalance = await web3.eth.getBalance(account);
-                const gasCost = web3.utils.toBN(gasPrice).mul(web3.utils.toBN(estimatedGas));
-                if (web3.utils.toBN(nativeBalance).lt(gasCost)) {
-                    status.innerText = 'GT余额不足以支付燃气费';
-                    return;
-                }
-                const tx = await claimContract.methods.withdrawTokens(tokenId).send({
-                    from: account,
-                    gas: web3.utils.toHex(Math.min(estimatedGas * 2, 3000000))
-                });
-                await waitForTransaction(tx.transactionHash);
-                status.innerText = '代币提取成功！';
-                await queryTokenBalanceOwner(tokenId);
-            } catch (error) {
-                status.innerText = error.code === 4001 ? '用户取消交易' : `提取失败: ${error.message}`;
-                console.error('Withdraw Tokens Error:', error);
-            } finally {
-                withdrawButton.disabled = false;
-                withdrawButton.innerHTML = '提取代币';
-            }
-        }
-
-        async function queryTokenBalanceOwner(tokenId) {
-            const infoElement = document.getElementById('withdrawTokenInfo');
-            if (!web3 || !account) {
-                infoElement.innerText = '请连接钱包';
-                return;
-            }
-            try {
-                const balance = await retryContractCall(() => claimContract.methods.tokenBalances(tokenId).call());
-                const tokenContract = await retryContractCall(() => claimContract.methods.tokenContracts(tokenId).call());
-                const balanceFormatted = Number(web3.utils.fromWei(balance, 'ether')).toFixed(0);
-                infoElement.innerHTML = `代币余额: ${balanceFormatted}<br>代币合约: ${tokenContract === '0x0000000000000000000000000000000000000000' ? '未设置' : tokenContract}`;
-            } catch (error) {
-                infoElement.innerText = `查询失败: ${error.message || '无效的代币编号'}`;
-            }
-        }
-
         function copyClaimContract() {
             navigator.clipboard.writeText(CLAIM_CONTRACT_ADDRESS).then(() => {
                 const notification = document.createElement('div');
@@ -593,10 +336,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('connectWalletButton').addEventListener('click', initializeWeb3);
             document.getElementById('claimButton').addEventListener('click', claimTokens);
-            document.getElementById('setTokenContractButton').addEventListener('click', setTokenContract);
-            document.getElementById('approveTokenButton').addEventListener('click', approveTokens);
-            document.getElementById('depositTokenButton').addEventListener('click', depositTokens);
-            document.getElementById('withdrawTokenButton').addEventListener('click', withdrawTokens);
 
             document.getElementById('claimTokenId').addEventListener('input', async () => {
                 const tokenId = document.getElementById('claimTokenId').value;
@@ -606,37 +345,6 @@
                     document.getElementById('claimInfo').innerText = '可领取代币：请先输入编号查询';
                 }
                 document.getElementById('claimButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0;
-            });
-            document.getElementById('setTokenId').addEventListener('input', () => {
-                const tokenId = document.getElementById('setTokenId').value;
-                const tokenContract = document.getElementById('tokenContractInput').value;
-                document.getElementById('setTokenContractButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !web3.utils.isAddress(tokenContract);
-            });
-            document.getElementById('tokenContractInput').addEventListener('input', () => {
-                const tokenId = document.getElementById('setTokenId').value;
-                const tokenContract = document.getElementById('tokenContractInput').value;
-                document.getElementById('setTokenContractButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !web3.utils.isAddress(tokenContract);
-            });
-            document.getElementById('depositTokenIdOwner').addEventListener('input', async () => {
-                const tokenId = document.getElementById('depositTokenIdOwner').value;
-                const amount = document.getElementById('depositTokenAmount').value;
-                document.getElementById('approveTokenButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0;
-                document.getElementById('depositTokenButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0;
-            });
-            document.getElementById('depositTokenAmount').addEventListener('input', () => {
-                const tokenId = document.getElementById('depositTokenIdOwner').value;
-                const amount = document.getElementById('depositTokenAmount').value;
-                document.getElementById('approveTokenButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0;
-                document.getElementById('depositTokenButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0;
-            });
-            document.getElementById('withdrawTokenIdOwner').addEventListener('input', async () => {
-                const tokenId = document.getElementById('withdrawTokenIdOwner').value;
-                if (tokenId && !isNaN(tokenId) && Number(tokenId) > 0) {
-                    await queryTokenBalanceOwner(tokenId);
-                } else {
-                    document.getElementById('withdrawTokenInfo').innerText = '代币余额：请先输入编号查询';
-                }
-                document.getElementById('withdrawTokenButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0;
             });
 
             const menuToggle = document.getElementById('menuToggle');
