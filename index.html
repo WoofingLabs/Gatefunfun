@@ -350,7 +350,7 @@
             try {
                 const tokenInfo = await retryContractCall(() => contract.methods.getTokenInfo(tokenId).call());
                 const userDeposit = await retryContractCall(() => contract.methods.getUserDeposit(account, tokenId).call());
-                const progress = (Number(web3.utils.fromWei(tokenInfo.balance, 'ether')) / 500).toFixed(2);
+                const progress = Number(web3.utils.fromWei(tokenInfo.balance, 'ether')).toFixed(1);
                 const userShare = Number(web3.utils.fromWei(userDeposit, 'ether')).toFixed(4);
                 const statusText = tokenInfo.status === '0' ? '活跃' : tokenInfo.status === '1' ? '已满' : '已关闭';
                 infoElement.innerHTML = `代币全称: ${tokenInfo.fullName}<br>符号: ${tokenInfo.symbol}<br>认购进度: ${progress}/500 GT<br>我的认购份额: ${userShare} GT<br>状态: ${statusText}`;
@@ -483,7 +483,7 @@
                 let html = '<table class="w-full text-sm token-table"><thead><tr><th>编号</th><th>符号</th><th>全称</th><th>Telegram</th><th>进度</th><th>状态</th></tr></thead><tbody>';
                 for (const id of validTokens) {
                     const tokenInfo = await retryContractCall(() => contract.methods.getTokenInfo(id).call());
-                    const progress = (Number(web3.utils.fromWei(tokenInfo.balance, 'ether')) / 500).toFixed(2);
+                    const progress = Number(web3.utils.fromWei(tokenInfo.balance, 'ether')).toFixed(1);
                     const statusText = tokenInfo.status === '0' ? '活跃' : tokenInfo.status === '1' ? '已满' : '已关闭';
                     html += `<tr><td>${id}</td><td>${tokenInfo.symbol}</td><td>${tokenInfo.fullName}</td><td><a href="${tokenInfo.telegram}" target="_blank" class="text-primary hover:underline">${tokenInfo.telegram}</a></td><td>${progress}/500 GT</td><td>${statusText}</td></tr>`;
                 }
