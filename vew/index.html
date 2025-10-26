@@ -88,9 +88,9 @@
             </div>
             <h1 class="font-display text-5xl md:text-7xl mb-6 text-primary text-shadow-glow">Gatefunfun</h1>
             <p class="text-xl md:text-2xl text-light-gray max-w-3xl mx-auto mb-10">
-                查询Gatefunfun社区代币信息，查看编号、符号、全称和Telegram链接！
+                查询Gatefunfun社区代币信息，查看编号、符号、全称、Telegram链接和认购进度！
             </p>
-            <div class="bg-dark/50 p-6 rounded-lg border border-primary/30 max-w-md mx-auto mb-8">
+            <div class="bg-dark/50 p-6 rounded-lg border border-primary/30 max-w-4xl mx-auto mb-8">
                 <div class="flex flex-col space-y-4">
                     <p id="networkStatus" class="text-light-gray text-sm">点击查询代币...</p>
                     <div class="flex items-center bg-dark/80 p-3 rounded-lg border border-primary/20">
@@ -198,14 +198,15 @@
                 queryButton.innerHTML = '查询中... <i class="fa fa-spinner fa-spin ml-2"></i>';
                 tokenListDiv.innerHTML = '<p class="text-light-gray text-sm">加载中...</p>';
                 let tokenId = 1;
-                let html = '<table class="w-full text-sm token-table"><thead><tr><th>编号</th><th>符号</th><th>全称</th><th>Telegram</th></tr></thead><tbody>';
+                let html = '<table class="w-full text-sm token-table"><thead><tr><th>编号</th><th>符号</th><th>全称</th><th>Telegram</th><th>认购进度</th></tr></thead><tbody>';
                 while (true) {
                     try {
                         status.innerText = `正在查询代币编号 ${tokenId}...`;
                         console.log(`查询代币编号: ${tokenId}`);
                         const tokenInfo = await retryContractCall(() => contract.methods.getTokenInfo(tokenId).call());
                         console.log(`代币 ${tokenId} 数据:`, tokenInfo);
-                        html += `<tr><td>${tokenId}</td><td>${tokenInfo.symbol}</td><td>${tokenInfo.fullName}</td><td><a href="${tokenInfo.telegram}" target="_blank" class="text-primary hover:underline">${tokenInfo.telegram}</a></td></tr>`;
+                        const progress = Number(web3.utils.fromWei(tokenInfo.balance, 'ether')).toFixed(1);
+                        html += `<tr><td>${tokenId}</td><td>${tokenInfo.symbol}</td><td>${tokenInfo.fullName}</td><td><a href="${tokenInfo.telegram}" target="_blank" class="text-primary hover:underline">${tokenInfo.telegram}</a></td><td>${progress}/500 GT</td></tr>`;
                         tokenListDiv.innerHTML = html + '</tbody></table>'; // 实时更新表格
                         tokenId++;
                         await delay(1000); // 每秒查询一个
