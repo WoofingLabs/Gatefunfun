@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gatefunfun - Claim Tokens</title>
+    <title>Gatefunfun - 领取代币</title>
     <link rel="icon" type="image/png" href="https://www.woofswap.finance/image/tokens/gdog.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -87,7 +87,7 @@
                     <p id="networkStatus" class="text-light-gray text-sm">点击连接钱包...</p>
                     <div class="flex items-center bg-dark/80 p-3 rounded-lg border border-primary/20">
                         <i class="fa fa-link text-accent mr-3"></i>
-                        <span class="font-mono text-sm text-white truncate">0x11113E6c135B1b98d704Fb1C1934b47d5168F795</span>
+                        <span class="font-mono text-sm text-white truncate">0x25450C8C69081eE62b84c751dEb0C8723a16ecEf</span>
                         <button class="ml-3 text-light-gray hover:text-secondary transition-colors" onclick="copyClaimContract()">
                             <i class="fa fa-copy"></i>
                         </button>
@@ -117,9 +117,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
-        const CLAIM_CONTRACT_ADDRESS = '0x11113E6c135B1b98d704Fb1C1934b47d5168F795';
+        const CLAIM_CONTRACT_ADDRESS = '0x25450C8C69081eE62b84c751dEb0C8723a16ecEf';
         const claimContractAbi = [
-            {"inputs":[{"internalType":"address","name":"_tokenRegistry","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},
+            {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
             {"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},
             {"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":true,"internalType":"address","name":"tokenContract","type":"address"}],"name":"TokenContractSet","type":"event"},
             {"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"TokenDeposited","type":"event"},
@@ -135,8 +135,7 @@
             {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenBalances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenContracts","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"tokenContractToId","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"tokenRegistry","outputs":[{"internalType":"contract ITokenRegistry","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
+            {"inputs":[],"name":"tokenRegistry","outputs":[{"internalType":"contract ITokenRegistry","name":"","type":"address"}],"stateMutability":"view","type":"function"}
         ];
 
         const chains = {
