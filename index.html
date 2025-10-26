@@ -90,7 +90,7 @@
             <p class="text-xl md:text-2xl text-light-gray max-w-3xl mx-auto mb-10">
                 创建代币，参与认购，随时退款！加入Gatefunfun，在Gatefun上启动，满500 GT 100%！4.5亿令牌公平预售！5000万代币空投GDOG锁仓共识者（锁仓10万GDOG领取2.5万）！350 GT进入Gatefun！150 GT回购GDOG加入3000万市值锁仓计划（未来GDOG基金会或烧录）！
             </p>
-            <div class="bg-dark/50 p-6 rounded-lg border border-primary/30 max-w-md mx-auto mb-8">
+            <div class="bg-dark/50 p-6 rounded-lg border border-primary/30 max-w-2xl mx-auto mb-8">
                 <div class="flex flex-col space-y-4">
                     <button id="connectWalletButton" class="px-6 py-3 bg-primary text-white rounded-full font-medium hover:bg-primary/80 transition-all">连接钱包</button>
                     <p id="networkStatus" class="text-light-gray text-sm">点击连接钱包...</p>
@@ -352,9 +352,10 @@
                 const userDeposit = await retryContractCall(() => contract.methods.getUserDeposit(account, tokenId).call());
                 const progress = Number(web3.utils.fromWei(tokenInfo.balance, 'ether')).toFixed(1);
                 const userShare = Number(web3.utils.fromWei(userDeposit, 'ether')).toFixed(4);
+                const remaining = (500 - Number(progress)).toFixed(1);
                 const statusText = tokenInfo.status === '0' ? '活跃' : tokenInfo.status === '1' ? '已满' : '已关闭';
-                infoElement.innerHTML = `代币全称: ${tokenInfo.fullName}<br>符号: ${tokenInfo.symbol}<br>认购进度: ${progress}/500 GT<br>我的认购份额: ${userShare} GT<br>状态: ${statusText}`;
-                return tokenInfo.status;
+                infoElement.innerHTML = `代币全称: ${tokenInfo.fullName}<br>符号: ${tokenInfo.symbol}<br>认购进度: ${progress}/500 GT<br>剩余可认购: ${remaining} GT<br>我的认购份额: ${userShare} GT<br>状态: ${statusText}`;
+                return { status: tokenInfo.status, remaining: remaining };
             } catch (error) {
                 infoElement.innerText = `查询失败: ${error.message || '无效的代币编号'}`;
                 return null;
@@ -374,20 +375,34 @@
                 status.innerText = '请输入有效的代币编号';
                 return;
             }
-            if (!amount || isNaN(amount) || Number(amount) <= 0 || Number(amount) % 0.1 !== 0) {
-                status.innerText = '请输入有效的认购金额（0.1 GT的倍数）';
+            if (!amount || isNaN(amount) || Number(amount) <= 0) {
+                status.innerText = '请输入有效的认购金额';
                 return;
             }
             try {
+                const amountWei = web3.utils.toWei(amount, 'ether');
+                const isMultiple = web3.utils.toBN(amountWei).mod(web3.utils.toBN('100000000000000000')).isZero();
+                if (!isMultiple) {
+                    status.innerText = '请输入0.1 GT的倍数金额';
+                    return;
+                }
                 depositButton.disabled = true;
                 depositButton.innerHTML = '认购中... <i class="fa fa-spinner fa-spin ml-2"></i>';
                 status.innerText = '检查燃气费和代币状态...';
-                const tokenStatus = await queryTokenInfo(tokenId, 'depositInfo');
-                if (tokenStatus !== '0') {
+                const tokenInfo = await queryTokenInfo(tokenId, 'depositInfo');
+                if (!tokenInfo) {
+                    status.innerText = '代币不存在';
+                    return;
+                }
+                if (tokenInfo.status !== '0') {
                     status.innerText = '代币不可认购（非活跃状态）';
                     return;
                 }
-                const amountWei = web3.utils.toWei(amount, 'ether');
+                const remaining = Number(tokenInfo.remaining);
+                if (Number(amount) > remaining) {
+                    status.innerText = `认购金额超过剩余可认购量（${remaining} GT）`;
+                    return;
+                }
                 const gasPrice = await web3.eth.getGasPrice();
                 const estimatedGas = await contract.methods.deposit(tokenId).estimateGas({ from: account, value: amountWei });
                 const nativeBalance = await web3.eth.getBalance(account);
@@ -431,8 +446,12 @@
                 withdrawButton.disabled = true;
                 withdrawButton.innerHTML = '退款中... <i class="fa fa-spinner fa-spin ml-2"></i>';
                 status.innerText = '检查燃气费和代币状态...';
-                const tokenStatus = await queryTokenInfo(tokenId, 'withdrawInfo');
-                if (tokenStatus !== '0') {
+                const tokenInfo = await queryTokenInfo(tokenId, 'withdrawInfo');
+                if (!tokenInfo) {
+                    status.innerText = '代币不存在';
+                    return;
+                }
+                if (tokenInfo.status !== '0') {
                     status.innerText = '代币不可退款（非活跃状态）';
                     return;
                 }
@@ -542,12 +561,16 @@
                 } else {
                     document.getElementById('depositInfo').innerText = '代币信息：请先输入编号查询';
                 }
-                document.getElementById('depositButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0 || Number(amount) % 0.1 !== 0;
+                const amountWei = amount ? web3.utils.toWei(amount, 'ether') : '0';
+                const isMultiple = amount ? web3.utils.toBN(amountWei).mod(web3.utils.toBN('100000000000000000')).isZero() : false;
+                document.getElementById('depositButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0 || !isMultiple;
             });
             document.getElementById('depositAmount').addEventListener('input', () => {
                 const tokenId = document.getElementById('depositTokenId').value;
                 const amount = document.getElementById('depositAmount').value;
-                document.getElementById('depositButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0 || Number(amount) % 0.1 !== 0;
+                const amountWei = amount ? web3.utils.toWei(amount, 'ether') : '0';
+                const isMultiple = amount ? web3.utils.toBN(amountWei).mod(web3.utils.toBN('100000000000000000')).isZero() : false;
+                document.getElementById('depositButton').disabled = !tokenId || isNaN(tokenId) || Number(tokenId) <= 0 || !amount || isNaN(amount) || Number(amount) <= 0 || !isMultiple;
             });
             document.getElementById('withdrawTokenId').addEventListener('input', async () => {
                 const tokenId = document.getElementById('withdrawTokenId').value;
