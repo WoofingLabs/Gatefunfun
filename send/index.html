@@ -261,6 +261,9 @@
                 const owner = await retryContractCall(() => claimContract.methods.owner().call());
                 console.log("Owner:", owner, "Account:", account);
                 document.getElementById('ownerSection').style.display = account.toLowerCase() === owner.toLowerCase() ? 'block' : 'none';
+                if (account.toLowerCase() === owner.toLowerCase()) {
+                    document.getElementById('networkStatus').innerText = 'Owner身份已确认';
+                }
             } catch (error) {
                 console.error('Check Owner Error:', error);
                 document.getElementById('ownerSection').style.display = 'none';
